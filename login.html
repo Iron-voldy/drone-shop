@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Shop - Login & Register</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a2647, #144272);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            transition: 0.5s ease-in-out;
+        }
+
+        .form-container {
+            width: 50%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .form-container h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: background 0.3s ease;
+        }
+
+        .form-group input:focus {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6f61, #ff9a8b);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background: linear-gradient(135deg, #ff9a8b, #ff6f61);
+        }
+
+        .switch-form {
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .switch-form a {
+            color: #ff6f61;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        .image-panel {
+            width: 50%;
+            background: url('./assets/fonts/drone-login.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Left Panel (Image) -->
+    <div class="image-panel"></div>
+
+    <!-- Login Form -->
+    <div id="loginForm" class="form-container fade-in">
+        <h2>Login</h2>
+        <form id="login">
+            <div class="form-group">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="loginPassword" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <div class="switch-form">
+            Don't have an account? <a href="#" id="switchToRegister">Register here</a>
+        </div>
+    </div>
+
+    <!-- Register Form -->
+    <div id="registerForm" class="form-container hidden">
+        <h2>Register</h2>
+        <form id="register">
+            <div class="form-group">
+                <input type="text" id="registerName" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="registerEmail" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="registerPassword" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn">Register</button>
+        </form>
+        <div class="switch-form">
+            Already have an account? <a href="#" id="switchToLogin">Login here</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Switch between login and register forms
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const switchToRegister = document.getElementById('switchToRegister');
+    const switchToLogin = document.getElementById('switchToLogin');
+
+    switchToRegister.addEventListener('click', function(e) {
+        e.preventDefault();
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        registerForm.classList.add('fade-in');
+    });
+
+    switchToLogin.addEventListener('click', function(e) {
+        e.preventDefault();
+        registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        loginForm.classList.add('fade-in');
+    });
+
+    // Handle form submissions
+    document.getElementById('login').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        alert(`Login attempted with Email: ${email} and Password: ${password}`);
+    });
+
+    document.getElementById('register').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+        alert(`Registration attempted with Name: ${name}, Email: ${email}, Password: ${password}`);
+    });
+</script>
+
+</body>
+</html>
