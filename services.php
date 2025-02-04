@@ -1,5 +1,16 @@
+<?php
+session_start();
+require 'connection.php';
+
+// Fetch products from the database
+$query = "SELECT * FROM drones ORDER BY created_at DESC";
+$result = Database::search($query);
+$products = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -24,6 +35,67 @@
     <link rel="stylesheet" href="assets/css/slick.css">
     <link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+    .product-card {
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: 0.3s ease-in-out;
+        text-align: center;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    }
+    .product-image img {
+        width: 100%;
+        border-radius: 10px;
+    }
+    .product-details {
+        margin-top: 15px;
+    }
+    .product-title {
+        font-size: 18px;
+        color: #333;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    .product-description {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+    .product-price {
+        font-size: 16px;
+        font-weight: bold;
+        color: #28a745;
+        margin-bottom: 15px;
+    }
+    .product-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding-top: 10px;
+    }
+    .product-actions button {
+        flex: 1;
+        margin: 5px;
+        padding: 10px 12px;
+        font-size: 14px;
+        border-radius: 5px;
+        transition: 0.3s;
+        white-space: nowrap;
+    }
+    .product-actions button i {
+        margin-right: 5px;
+    }
+    .product-actions button:hover {
+        transform: scale(1.05);
+    }
+</style>
+
 </head>
 
 <body>
@@ -60,27 +132,19 @@
                                             <ul id="navigation">
                                                 <li><a href="index.html">Home</a></li>
                                                 <li><a href="about.html">About</a></li>
-                                                <li><a href="services.html">Services</a></li>
-                                                <li><a href="projects.html">Projects</a></li>
-                                                <li><a href="#">Blog</a>
-                                                    <ul class="submenu">
-                                                        <li><a href="blog.html">Blog</a></li>
-                                                        <li><a href="blog_details.html">Blog Details</a></li>
-                                                        <li><a href="elements.html">Element</a></li>
-                                                    </ul>
-                                                </li>
+                                                <li><a href="services.php">Products</a></li>
                                                 <li><a href="contact.html">Contact</a></li>
                                                 <!-- Header btn -->
                                                 <li>
                                                     <div class="header-right-btn ml-40">
-                                                        <a href="#" class="btn"><img src="assets/img/icon/smartphone.svg" alt="">(10) 892-293 2678</a>
+                                                        <a href="#" class="btn"><img src="assets/img/icon/smartphone.svg" alt="">Profile</a>
                                                     </div>
                                                 </li>
                                             </ul>
                                         </nav>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <!-- Mobile Menu -->
                             <div class="col-12">
                                 <div class="mobile_menu d-block d-lg-none"></div>
@@ -100,7 +164,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero__caption hero__caption2">
-                                <h2>Services</h2>
+                                <h2>Products</h2>
                             </div>
                         </div>
                     </div>
@@ -109,83 +173,41 @@
         </div>
         <!-- Hero End -->
         <!--? services area start -->
-        <section class="services-section section-padding30 fix">
+        <section class="product-section section-padding30 fix">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat mb-40">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/services7.png" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Residential Real Estate Photography</a></h5>
-                                <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat mb-40">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/services8.png" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Commercial Real Estate Photography</a></h5>
-                                <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat mb-40">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/services9.png" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Construction Site Monitoring</a></h5>
-                                <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
+                    <?php foreach ($products as $product) : ?>
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="single-cat product-card">
+                                <div class="product-image text-center">
+                                    <img src="<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?>">
+                                </div>
+                                <div class="product-details text-center">
+                                    <h5><a href="product-details.php?drone_id=<?php echo $product['drone_id']; ?>" class="product-title">
+                                            <?php echo $product['name']; ?>
+                                        </a></h5>
+                                    <p class="product-description"><?php echo $product['description']; ?></p>
+                                    <p class="product-price"><strong>Price:</strong> $<?php echo number_format($product['price'], 2); ?></p>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="product-actions d-flex justify-content-around flex-wrap">
+                                    <button class="btn btn-primary add-cart" onclick="addToCart(<?php echo $product['drone_id']; ?>)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                                    <button class="btn btn-warning add-wishlist" onclick="addToWishlist(<?php echo $product['drone_id']; ?>)"><i class="fas fa-heart"></i> Wishlist</button>
+                                    <button class="btn btn-success buy-now" onclick="buyNow(<?php echo $product['drone_id']; ?>)"><i class="fas fa-bolt"></i> Buy Now</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat mb-40">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/services4.png" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Commercial Real Estate Photography</a></h5>
-                                <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat mb-40">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/services5.png" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Residential Real Estate Photography</a></h5>
-                                <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="single-cat mb-40">
-                            <div class="cat-icon">
-                                <img src="assets/img/gallery/services6.png" alt="">
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href="services.html">Commercial Real Estate Photography</a></h5>
-                                <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
+
         <!-- Services End -->
         <!--? video_start -->
-        <div class="video-area section-bg2 d-flex align-items-end fix"  data-background="assets/img/gallery/video-bg.png">
+        <div class="video-area section-bg2 d-flex align-items-end fix" data-background="assets/img/gallery/video-bg.png">
             <!-- Video icon -->
-            <div class="video-icon" >
+            <div class="video-icon">
                 <a class="popup-video btn-icon" href="https://www.youtube.com/watch?v=up68UAfH0d0"><i class="fas fa-play"></i></a>
             </div>
             <div class="container">
@@ -194,7 +216,7 @@
                         <div class="col-xl-5 col-lg-5 col-md-10">
                             <div class="section-tittle  mb-90">
                                 <h2>How we work?</h2>
-                                <p class="tittle-pera1">Inasfa reprehenderit in voluptate velit esse  cillum reeut cupidatatfug nulla pariatur.</p>
+                                <p class="tittle-pera1">Inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur.</p>
                                 <p>Aute irure dolor inasfa reprehenderit in voluptate velit esse cillum reeut cupidatatfug nulla pariatur. Excepteur sintxsdfas occaecat.</p>
                                 <a href="#" class="btn black-btn">Start a Project</a>
                             </div>
@@ -204,7 +226,7 @@
                                 <!-- single-item -->
                                 <div class="single-items mb-50">
                                     <span>Tell Us About Your Project</span>
-                                    <p>Aute irure dolor inasfa prehenderit  in voluptate velit esse cillum.</p>
+                                    <p>Aute irure dolor inasfa prehenderit in voluptate velit esse cillum.</p>
                                 </div>
                                 <!-- single-item -->
                                 <div class="single-items single-items2 mb-50">
@@ -321,7 +343,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form> 
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -332,7 +354,7 @@
         </div>
     </main>
     <footer>
-        <div class="footer-wrapper section-bg2"  data-background="assets/img/gallery/footer-bg.png">
+        <div class="footer-wrapper section-bg2" data-background="assets/img/gallery/footer-bg.png">
             <!-- Footer Start-->
             <div class="footer-area footer-padding">
                 <div class="container">
@@ -404,23 +426,55 @@
                             <div class="col-xl-12 ">
                                 <div class="footer-copy-right text-center">
                                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                                      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <!-- Footer End-->
-          </div>
-      </footer>
-      <!-- Scroll Up -->
-      <div id="back-top" >
+                                        Copyright &copy;<script>
+                                            document.write(new Date().getFullYear());
+                                        </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End-->
+        </div>
+    </footer>
+    <!-- Scroll Up -->
+    <div id="back-top">
         <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
     <!-- JS here -->
+
+    <script>
+function addToCart(droneId) {
+    fetch('add_to_cart.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `drone_id=${droneId}&quantity=1`
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    });
+}
+
+function addToWishlist(droneId) {
+    fetch('add_to_wishlist.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `drone_id=${droneId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    });
+}
+
+function buyNow(droneId) {
+    window.location.href = `checkout.php?drone_id=${droneId}`;
+}
+</script>
 
     <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>
     <!-- Jquery, Popper, Bootstrap -->
@@ -445,7 +499,7 @@
     <script src="./assets/js/jquery.sticky.js"></script>
     <!-- Progress -->
     <script src="./assets/js/jquery.barfiller.js"></script>
-    
+
     <!-- counter , waypoint,Hover Direction -->
     <script src="./assets/js/jquery.counterup.min.js"></script>
     <script src="./assets/js/waypoints.min.js"></script>
@@ -458,10 +512,11 @@
     <script src="./assets/js/jquery.validate.min.js"></script>
     <script src="./assets/js/mail-script.js"></script>
     <script src="./assets/js/jquery.ajaxchimp.min.js"></script>
-    
-    <!-- Jquery Plugins, main Jquery -->	
+
+    <!-- Jquery Plugins, main Jquery -->
     <script src="./assets/js/plugins.js"></script>
     <script src="./assets/js/main.js"></script>
-    
+
 </body>
+
 </html>

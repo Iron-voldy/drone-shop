@@ -160,7 +160,10 @@
         <h2>Register</h2>
         <form id="register">
             <div class="form-group">
-                <input type="text" id="registerName" placeholder="Full Name" required>
+                <input type="text" id="registerUsername" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="registerFullName" placeholder="Full Name" required>
             </div>
             <div class="form-group">
                 <input type="email" id="registerEmail" placeholder="Email" required>
@@ -168,8 +171,16 @@
             <div class="form-group">
                 <input type="password" id="registerPassword" placeholder="Password" required>
             </div>
+            <div class="form-group">
+                <input type="text" id="registerPhone" placeholder="Phone Number" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="registerAddress" placeholder="Address" required>
+            </div>
             <button type="submit" class="btn">Register</button>
         </form>
+        
+        
         <div class="switch-form">
             Already have an account? <a href="#" id="switchToLogin">Login here</a>
         </div>
@@ -177,8 +188,9 @@
 </div>
 
 <script>
-    // Switch between login and register forms
-    const loginForm = document.getElementById('loginForm');
+
+     // Switch between login and register forms
+     const loginForm = document.getElementById('loginForm');
     const registerForm = document.getElementById('registerForm');
     const switchToRegister = document.getElementById('switchToRegister');
     const switchToLogin = document.getElementById('switchToLogin');
@@ -197,22 +209,48 @@
         loginForm.classList.add('fade-in');
     });
 
-    // Handle form submissions
+
     document.getElementById('login').addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
-        alert(`Login attempted with Email: ${email} and Password: ${password}`);
+
+        fetch('login.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `email=${email}&password=${password}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            if (data.status === "success") {
+                window.location.href = "index.php"; // Redirect on success
+            }
+        });
     });
 
     document.getElementById('register').addEventListener('submit', function(e) {
         e.preventDefault();
-        const name = document.getElementById('registerName').value;
+        
+        const username = document.getElementById('registerUsername').value;
+        const full_name = document.getElementById('registerFullName').value;
         const email = document.getElementById('registerEmail').value;
         const password = document.getElementById('registerPassword').value;
-        alert(`Registration attempted with Name: ${name}, Email: ${email}, Password: ${password}`);
+        const phone = document.getElementById('registerPhone').value;
+        const address = document.getElementById('registerAddress').value;
+
+        fetch('register.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `username=${username}&full_name=${full_name}&email=${email}&password=${password}&phone=${phone}&address=${address}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        });
     });
 </script>
+
 
 </body>
 </html>
