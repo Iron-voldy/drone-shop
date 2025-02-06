@@ -132,6 +132,6 @@ This project is licensed under the MIT License.
 ## Contact
 For support or contributions, contact:
 **Your Name**
-- Email: your.email@example.com
-- GitHub: [your-github](https://github.com/your-github)
+- Email: hasindut@gmail.com
+- GitHub: [your-github](https://github.com/Iron-voldy)
 
