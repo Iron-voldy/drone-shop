@@ -1,98 +1,49 @@
-# 🚀 Drone E-Commerce Project
-A **PHP & MySQL-based Drone Store** with features like product management, cart, wishlist, user authentication, and order processing.
+# Drone E-Commerce Platform
+
+## Project Overview
+This is a fully functional **Drone E-Commerce Platform** built using PHP, MySQL, JavaScript, and Bootstrap. Users can browse, add products to the cart and wishlist, manage their profile, place orders, and process payments.
 
 ---
 
-## 📌 Features
-- **User Authentication:** Register, login, and profile management.
-- **Product Management:** Add, update, and remove products.
-- **Cart & Wishlist:** Add/remove products, update quantities.
-- **Order System:** Checkout, payments, and order tracking.
-- **Responsive UI:** Bootstrap-powered, clean interface.
+## Features
+
+### **User Features**
+- User Registration & Login
+- View and Update Profile Information
+- Add Products to Wishlist
+- Manage Cart (Update Quantity, Remove Items)
+- Checkout and Payment Processing
+- View Order History
+
+### **Admin Features**
+- Add, Update, and Delete Products
+- Manage Orders & Payments
+
+### **E-Commerce Functionalities**
+- Product Listing with Details
+- Add to Wishlist & Remove from Wishlist
+- Shopping Cart with Quantity Updates
+- Order Management System
+- Payment Processing
+- Secure Authentication & Session Handling
 
 ---
 
-## 📁 Folder Structure
-```
-/dronephotography
-│── assets/
-│   ├── css/                # Stylesheets (Bootstrap, custom CSS)
-│   ├── img/                # Images & product photos
-│   ├── js/                 # JavaScript files
-│── includes/
-│   ├── header.php          # Navbar & main menu
-│   ├── footer.php          # Footer section
-│── database/
-│   ├── connection.php      # Database connection
-│   ├── db.sql              # MySQL database file
-│── products/
-│   ├── add_product.php     # Admin: Add new products
-│   ├── product-details.php # Single product view
-│   ├── wishlist.php        # User wishlist page
-│── cart/
-│   ├── cart.php            # Shopping cart
-│   ├── checkout.php        # Checkout page
-│   ├── process_payment.php # Payment processing
-│── orders/
-│   ├── orders.php          # User orders history
-│── authentication/
-│   ├── login.php           # User login
-│   ├── register.php        # User registration
-│── profile/
-│   ├── profile.php         # User profile & updates
-│── index.php               # Homepage
-│── README.md               # Documentation
+## Installation
+### **1. Clone the Repository**
+```sh
+ git clone https://github.com/your-repo/drone-ecommerce.git
 ```
 
----
+### **2. Setup Database**
+- Import the `drone_shop.sql` file into MySQL.
+- Database Name: `DroneShop`
 
-## 🛠️ Installation Guide
-### 1️⃣ Prerequisites
-- **XAMPP** or **WAMP** (Local PHP Server)
-- **MySQL** (Database)
-- **Composer** (Optional for dependencies)
-
-### 2️⃣ Setup Database
-1. Open **phpMyAdmin** (`http://localhost/phpmyadmin/`).
-2. Create a new database: **`DroneShop`**.
-3. Import `database/db.sql`.
-
-OR
-
-Run this command in MySQL:
-```sql
-CREATE DATABASE DroneShop;
-USE DroneShop;
-
-CREATE TABLE users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    full_name VARCHAR(100),
-    phone VARCHAR(15),
-    address TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE drones (
-    drone_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    price DECIMAL(10,2) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    category VARCHAR(50),
-    image_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### 3️⃣ Configure Database Connection
-Edit `database/connection.php`:
+### **3. Configure Database Connection**
+Edit `connection.php` and update your database credentials:
 ```php
 class Database {
     public static $connection;
-
     public static function setUpConnection() {
         if (!isset(Database::$connection)) {
             Database::$connection = new mysqli("localhost", "root", "", "DroneShop", "3306");
@@ -101,75 +52,86 @@ class Database {
 }
 ```
 
----
+### **4. Start the Server**
+Use XAMPP or any local server and navigate to the project folder.
 
-## 🔧 How to Use
-### 1️⃣ Start Local Server
-- Open **XAMPP** / **WAMP**.
-- Start **Apache** and **MySQL**.
-- Visit: [`http://localhost/dronephotography/`](http://localhost/dronephotography/).
-
-### 2️⃣ Register & Login
-1. Create a new account via `register.php`.
-2. Log in to access the profile, cart, and wishlist.
-
-### 3️⃣ Add Products (Admin)
-1. Navigate to `add_product.php`.
-2. Fill in product details and **upload an image**.
-3. Click **"Add Product"**.
-
-### 4️⃣ Shopping Experience
-- Add products to the **cart** or **wishlist**.
-- Proceed to **checkout** and make payments.
-- View **order history**.
-
-### 5️⃣ Manage Profile
-- Update **username, email, phone, address**.
-- View **orders, wishlist, and cart**.
+```sh
+php -S localhost:8000
+```
+Then, open `http://localhost:8000/` in the browser.
 
 ---
 
-## 📌 API Endpoints
-### User Authentication
-| Method | Endpoint         | Description         |
-|--------|----------------|---------------------|
-| `POST` | `/login.php`   | User login         |
-| `POST` | `/register.php` | New user signup    |
-
-### Product Management
-| Method | Endpoint              | Description         |
-|--------|----------------------|---------------------|
-| `GET`  | `/product-details.php?id=1` | Get single product |
-| `POST` | `/add_product.php` | Add new product    |
-
-### Cart & Wishlist
-| Method | Endpoint         | Description          |
-|--------|----------------|----------------------|
-| `POST` | `/add_to_cart.php` | Add item to cart  |
-| `POST` | `/remove_from_cart.php` | Remove from cart |
-| `POST` | `/add_to_wishlist.php` | Add to wishlist |
-| `POST` | `/remove_from_wishlist.php` | Remove from wishlist |
-
-### Orders & Checkout
-| Method | Endpoint         | Description             |
-|--------|----------------|-------------------------|
-| `POST` | `/process_payment.php` | Process order & payment |
+## File Structure
+```
+├── assets/
+│   ├── css/
+│   ├── js/
+│   ├── images/
+├── includes/
+│   ├── header.php
+│   ├── footer.php
+├── database/
+│   ├── connection.php
+├── pages/
+│   ├── index.php (Home Page)
+│   ├── product-details.php
+│   ├── profile.php
+│   ├── cart.php
+│   ├── wishlist.php
+│   ├── checkout.php
+│   ├── add_product.php
+├── order_success.php
+├── README.txt
+```
 
 ---
 
-## 🛠️ Future Enhancements
-✅ **Admin Panel** - Manage users, orders, and products.  
-✅ **Profile Picture** - Add avatar upload.  
-✅ **Payment Gateway** - Implement **PayPal / Stripe**.  
-✅ **Search & Filters** - Sort products by price/category.  
+## Usage Instructions
+### **1. Register and Login**
+- Go to `register.php` to create an account.
+- Log in using `login.php`.
+
+### **2. Manage Profile**
+- Click on "Profile" to update user details.
+
+### **3. Browse and Buy Products**
+- Add products to the cart.
+- View wishlist and move items to the cart.
+- Proceed to checkout and complete payment.
+
+### **4. Manage Orders**
+- Track orders and view order history.
 
 ---
 
-## 📞 Support
-📧 **Email:** `support@dronestore.com`  
-👨‍💻 **Developed by:** `Hasindu Wanninayake`  
+## Sample Data
+To test the project, use the following sample data:
+```sql
+INSERT INTO users (username, email, password_hash, full_name, phone, address) VALUES ('testuser', 'test@example.com', 'password123', 'Test User', '1234567890', '123 Test Street');
+
+INSERT INTO drones (name, description, price, stock, category, image_url) VALUES
+('DJI Mavic Air 2', 'Advanced drone with 4K camera and 34-min flight time.', 899.99, 10, 'Photography', 'assets/img/gallery/drone1.png');
+```
 
 ---
 
-🚀 **Enjoy building your Drone Store!** Let me know if you need any modifications. ✅
+## Technologies Used
+- **Backend:** PHP, MySQL
+- **Frontend:** HTML, CSS, JavaScript, Bootstrap
+- **Database:** MySQL
+- **Libraries:** jQuery, FontAwesome
+
+---
+
+## License
+This project is licensed under the MIT License.
+
+---
+
+## Contact
+For support or contributions, contact:
+**Your Name**
+- Email: your.email@example.com
+- GitHub: [your-github](https://github.com/your-github)
 
