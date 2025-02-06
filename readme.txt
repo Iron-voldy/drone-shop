@@ -167,9 +167,7 @@ class Database {
 
 ## 📞 Support
 📧 **Email:** `support@dronestore.com`  
-🌐 **Website:** [`https://dronestore.com`](https://dronestore.com)  
-
-👨‍💻 **Developed by:** `Your Name`  
+👨‍💻 **Developed by:** `Hasindu Wanninayake`  
 
 ---
 
